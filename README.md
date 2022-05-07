@@ -24,13 +24,23 @@ The linear graph is slightly affected by the number of conflicts per year but ne
 
 # Datasets and other links
 https://data.oecd.org/energy/crude-oil-import-prices.htm
+
 ucdp-prio-acd-211-csv.zip
+
 https://ucdp.uu.se/
+
 https://ourworldindata.org/renewable-energy
+
 https://ourworldindata.org/fossil-fuels
+
 City and Town Population Totals: 2010-2019 (census.gov)
+
 Form EIA-860 detailed data with previous form data (EIA-860A/860B)
+
 U.S. Renewable Energy Technical Potentials: A GIS-Based Analysis (nrel.gov)
+
 https://www.iea.org/reports/global-energy-review-2019/natural-gas
+
 Grid operators: Vermont electric grid reaching saturation point in the north | True North Reports
+
 Biden commits to cutting U.S. emissions in half by 2030 as part of Paris climate pact (nbcnews.com)
