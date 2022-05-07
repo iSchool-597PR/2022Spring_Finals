@@ -1,6 +1,7 @@
 import pandas as pd
 from functools import partial, reduce
 import matplotlib.pyplot as matplot
+from scipy import stats
 
 
 def get_conflicts():
@@ -22,13 +23,24 @@ def get_conflicts():
 
 
 def get_single_location(row):
+    """ Extracts a single location from multi valued cell
+    :param row: the cell containing multi valued data
+    >>> get_single_location('Argentina, Luisiana')
+    'Argentina'
+    >>> get_single_location('Mayanmar (Burma)')
+    'Mayanmar'
+    >>> get_single_location(23)
+    Traceback (most recent call last):
+    AttributeError: 'int' object has no attribute 'split'
+    """
     str_row = row.split(",")[0]
-    '''str_row = row.str.split(",")
-    str_row = str_row.str[0]'''
-    return str_row
+    str_row = str_row.split("(")[0]
+    return str_row.strip()
 
 
 def add_aggregate_year(conflict_df):
+    """ Extract year from the Time column and group by Year for calculating mean
+    """
     conflict_df['Year'] = conflict_df["TIME"].str.slice(0, 4)
     conflict_df = conflict_df.groupby(['Entity', 'Year']).agg({'Value': ['mean']})
     conflict_df.columns = ['Value']
@@ -36,6 +48,8 @@ def add_aggregate_year(conflict_df):
 
 
 def add_country_col(conflicts_df):
+    """ Add Country column after extracting Country name from the Country code
+    """
     country_df = (pd.read_csv("data/CountryNamesCodesBasic.csv"))[['3char country code', 'Country Name (usual)']]
     country_df = country_df.rename(columns={'Country Name (usual)': 'Entity', '3char country code': 'location'})
     country_df = country_df.set_index(['location'])
@@ -120,6 +134,9 @@ def plot_2009_2010_data(proc_conf_dff1):
     print(merged_conf_0510_count)
     plot_linear_graphs_0510(merged_conf_0510_count)
 
+    # Calculate Pearson model for correlation
+    get_pearson_for_price_conflicts(merged_proc_conf_df)
+
 
 def plot_oil_prices_over_years(proc_conf_dff, oil_grouped_dff):
     """ Plots the graph of oil prices over the years vs conflicts over the years
@@ -156,6 +173,16 @@ def plot_linear_graphs_0510(merged_conf_0510_count1):
     matplot.ylabel('')
     matplot.plot(merged_conf_0510_count1.index, merged_conf_0510_count1['Entity'])
     matplot.show()
+
+
+def get_pearson_for_price_conflicts(merged_proc_conf_dff1):
+    """ Calculate the correlation between the oil price and number of Conflicts
+    """
+    merged_proc_conf_df_pearson = merged_proc_conf_dff1.groupby(['Year']).agg({'Entity': 'count', 'price': 'mean'})
+    merged_proc_conf_df_pearson = merged_proc_conf_df_pearson.reset_index()
+    merged_proc_conf_df_pearson_1983 = merged_proc_conf_df_pearson[(merged_proc_conf_df_pearson['Year'] >= 1983)]
+    print(merged_proc_conf_df_pearson_1983)
+    stats.pearsonr(merged_proc_conf_df_pearson_1983['Entity'], merged_proc_conf_df_pearson_1983['price'])
 
 
 def analyse_oil_conflicts():
