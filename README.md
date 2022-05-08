@@ -16,7 +16,7 @@ While analyzing the data for hypothesis 1 we stumbled on statewide data for the 
 
 # Conclusions
 ## Hypothesis 1
-Inconclusive, since there is a negative trend for all the non-renewable energies as expected but a sudden rise in natural gas.
+Our hypothesis has been rejected, since there is a negative trend for all the non-renewable energies as expected but a sudden rise in natural gas.
 
 ## Hypothesis 2
 The linear graph is slightly affected by the number of conflicts per year but need more data. the data for comparison is 1983-2020. To conclude if the oil prices is affected we need a larger test data. Applying pearson model for the oil prices and number of conflicts show that they are not correlated.
